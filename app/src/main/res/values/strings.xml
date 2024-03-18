@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Hackathon</string>
+    <string name="log_in">Log In</string>
+    <string name="new_user_create_an_account">New user? Create an account</string>
+    <string name="password">Password</string>
+    <string name="create_an_account">Create an Account</string>
+    <string name="existing_user_log_in">Existing user? Log In</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="Name" type="id" />
+    <item name="Create_acc_btn" type="id" />
+    <item name="textView3" type="id" />
+    <item name="numberr" type="id" />
+    <item name="Number" type="id" />
+    <item name="email" type="id" />
+    <item name="Email" type="id" />
+    <item name="LogIN_btn" type="id" />
+    <item name="textView2" type="id" />
+    <item name="guideline_vertical" type="id" />
+</resources>
