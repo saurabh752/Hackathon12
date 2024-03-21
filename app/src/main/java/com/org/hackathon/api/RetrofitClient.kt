@@ -15,15 +15,9 @@ object RetrofitClient {
 
     // Create a TrustManager to trust all certificates (for debugging purposes only)
     private val trustAllCertificates: Array<TrustManager> = arrayOf(object : X509TrustManager {
-        override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {
-        }
-
-        override fun checkServerTrusted(chain: Array<out X509Certificate>?, authType: String?) {
-        }
-
-        override fun getAcceptedIssuers(): Array<X509Certificate> {
-            return arrayOf()
-        }
+        override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {}
+        override fun checkServerTrusted(chain: Array<out X509Certificate>?, authType: String?) {}
+        override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
     })
 
     // Create a HostnameVerifier that allows all hostnames
@@ -42,12 +36,12 @@ object RetrofitClient {
         .build()
 
     // Create Retrofit instance using the custom OkHttpClient
-    val instance: InterfaceAPI by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(InterfaceAPI::class.java)
-    }
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    // Create ApiService instance
+    var apiService: InterfaceAPI = retrofit.create(InterfaceAPI::class.java)
 }

@@ -18,17 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:text="Select Date and Slot"
-        android:textSize="@dimen/_20sdp"
-        app:layout_constraintBottom_toBottomOf="@+id/back_btn"
-        app:layout_constraintStart_toEndOf="@+id/back_btn" />
-
-<!--    <devs.mulham.horizontalcalendar.HorizontalCalendarView-->
+    <!--    <devs.mulham.horizontalcalendar.HorizontalCalendarView-->
 <!--        android:id="@+id/calendarView"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
@@ -37,17 +27,36 @@
 <!--        app:layout_constraintTop_toBottomOf="@+id/textView9"-->
 <!--        app:textColorSelected="#FFFF" />-->
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSelectDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Select Date"
+        app:layout_constraintEnd_toEndOf="@+id/textView9"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:text="Select Date and Slot"
+        android:textSize="@dimen/_20sdp"
+        app:layout_constraintBottom_toBottomOf="@+id/back_btn"
+        app:layout_constraintStart_toEndOf="@+id/back_btn" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTimeSlots"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="100dp"
         android:layout_marginBottom="180dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/btnSelectDate"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/time_pic" />
 

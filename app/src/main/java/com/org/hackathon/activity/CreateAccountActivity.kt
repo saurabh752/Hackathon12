@@ -49,7 +49,7 @@ class CreateAccountActivity : AppCompatActivity() {
                    return@setOnClickListener
                }
 
-                RetrofitClient.instance.createUser(email, name)
+                RetrofitClient.apiService.createUser(email, name)
                     .enqueue(object :retrofit2.Callback<DefaultResponse>{
                         override fun onResponse(call: Call<DefaultResponse>,response: Response<DefaultResponse>) {
                             if (response.isSuccessful) {

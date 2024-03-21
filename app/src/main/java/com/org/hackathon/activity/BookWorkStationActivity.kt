@@ -1,68 +1,105 @@
 package com.org.hackathon.activity
 
-//import android.R
+import RetrofitClient.apiService
+import TimeSlotAdapter
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.org.hackathon.adapter.TimeSlotAdapter
+import com.google.android.material.datepicker.MaterialDatePicker
+
 import com.org.hackathon.databinding.ActivityBookWorkStationBinding
-//import com.org.hackathon.databinding.ActivityLoginBinding
-//import devs.mulham.horizontalcalendar.HorizontalCalendar
-//import devs.mulham.horizontalcalendar.HorizontalCalendarListener
-//import devs.mulham.horizontalcalendar.HorizontalCalendarView
-//import java.util.Calendar
-//import java.util.Date
+import com.org.hackathon.model.SlotResponse
+import com.org.hackathon.model.TimeSlot
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
+
 
 
 class BookWorkStationActivity : AppCompatActivity() {
     lateinit var binding: ActivityBookWorkStationBinding
+    private lateinit var datePicker: MaterialDatePicker<Long>
+    private val slotsAdapter = TimeSlotAdapter()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityBookWorkStationBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         binding.backBtn.setOnClickListener {
             finish()
         }
-        //setupHorizontalCalendar()
-        // Sample data for time slots
-        val timeSlots = listOf("10:00AM - 11:00AM","01:00PM - 02:00PM","04:00PM - 05:00PM","06:00PM - 07:00PM","08:00PM - 09:00PM")
-        val timeSlot = listOf("11:00AM - 12:00PM","02:00PM - 03:00PM","05:00PM - 06:00PM","07:00PM - 08:00PM","09:00PM - 10:00PM")
-        // Set up RecyclerView
-        val adapter = TimeSlotAdapter(timeSlots,timeSlot)
+// Initialize ApiService
+        apiService = RetrofitClient.apiService
+        // Initialize RecyclerView
         binding.recyclerViewTimeSlots.layoutManager = LinearLayoutManager(this)
-        binding.recyclerViewTimeSlots.adapter = adapter
+        binding.recyclerViewTimeSlots.adapter = slotsAdapter
+
+
+
+        // Initialize MaterialDatePicker
+        datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select Date")
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
+
+        // Handle date selection
+        datePicker.addOnPositiveButtonClickListener { selectedDate ->
+            val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+            calendar.timeInMillis = selectedDate
+            val selectedDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val selectedDateString = selectedDateFormat.format(calendar.time)
+            // Fetch slots for the selected date
+            fetchSlots(selectedDateString)
+
+        }
+
+        // Show date picker on button click
+        binding.btnSelectDate.setOnClickListener {
+            datePicker.show(supportFragmentManager, "DATE_PICKER")
+        }
     }
 
 
-}
 
-//    private fun setupHorizontalCalendar() {
-//        val startDate = Calendar.getInstance()
-//        startDate.add(Calendar.MONTH, -1)
-//
-//        val endDate = Calendar.getInstance()
-//        endDate.add(Calendar.MONTH, 1)
-//
-//        val horizontalCalendar = HorizontalCalendar.Builder(this, binding.calendarView.id)
-//            .range(startDate, endDate)
-//            .datesNumberOnScreen(5)
-//            .build()
-//
-//        horizontalCalendar.calendarListener = object : HorizontalCalendarListener() {
-//
-//
-//            override fun onCalendarScroll(calendarView: HorizontalCalendarView?, dx: Int, dy: Int) {
-//                // Handle calendar scroll
-//            }
-//
-//            override fun onDateSelected(date: Date?, position: Int) {
-//                TODO("Not yet implemented")
-//            }
-//        }
-//    }
-//}
-//
-//fun HorizontalCalendar.Builder.range(startDate: Calendar, endDate: Calendar): HorizontalCalendar.Builder {
-//    return this.range(startDate, endDate)
-//}
+
+
+
+    private fun fetchSlots(date: String) {
+
+        apiService.getSlotsForDate(date).enqueue(object :Callback<SlotResponse>{
+            override fun onResponse(call: Call<SlotResponse>, response: Response<SlotResponse>)
+            {
+                if (response.isSuccessful) {
+                    val slotResponse = response.body()
+                    slotResponse?.let {
+                        displayTimeSlots(it.timeSlots)
+                    }?: showError("Empty response body")
+                } else {
+                    // Handle unsuccessful response
+                    Toast.makeText(applicationContext, "Failed to fetch slots", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+            override fun onFailure(call: Call<SlotResponse>, t: Throwable) {
+                Toast.makeText(applicationContext, "Network error", Toast.LENGTH_SHORT).show()
+
+            }
+
+        })
+    }
+
+    private fun displayTimeSlots(timeSlots: List<TimeSlot>) {
+        slotsAdapter.setSlots(timeSlots)
+    }
+
+    private fun showError(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+}

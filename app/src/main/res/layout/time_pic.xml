@@ -1,36 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- time_slot_item.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textViewTimeSlot1"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_40sdp"
+    <!-- First time slot button -->
+    <Button
+        android:id="@+id/btnTimeSlot1"
+        android:layout_width="0dp"
         android:layout_weight="1"
-        android:textColor="@color/white"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_5ssp"
-        android:background="@drawable/time_button"
-        android:gravity="center"
-        android:minWidth="@dimen/_120sdp"
-        android:text="05:00PM - 06:00PM"
-        android:textSize="@dimen/_10ssp" />
+        android:layout_height="wrap_content"
+        android:text="10:00AM - 11:00AM"/>
 
-    <TextView
-        android:id="@+id/textViewTimeSlot2"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/_10ssp"
+    <!-- Second time slot button -->
+    <Button
+        android:id="@+id/btnTimeSlot2"
+        android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_marginStart="@dimen/_5sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:textColor="@color/white"
-        android:background="@drawable/time_button"
-        android:gravity="center"
-        android:text="05:00PM - 06:00PM"
-        android:textSize="@dimen/_10ssp" />
+        android:layout_height="wrap_content"
+        android:text="11:00AM - 12:00PM"/>
 
 </LinearLayout>
